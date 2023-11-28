@@ -8,7 +8,7 @@ A hostel accomodation system which aims to make admission process online includi
 Clone the project
 
 ```bash
-  
+ git clone https://github.com/17ramya/Hostel-Admission-System
 ```
 
 Go to the project directory
