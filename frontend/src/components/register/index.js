@@ -14,7 +14,7 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/api/Student/register', {
+      const response = await axios.post('https://hostel-admission-system.onrender.com/api/Student/register', {
         s_name,
         regno,
         dept,
