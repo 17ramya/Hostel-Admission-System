@@ -1,8 +1,12 @@
 import axios from 'axios';
 
-const STUDENTS_REST_API_URL = 'http://localhost:8080/api/Student';
-const ADMISSIONS_REST_API_URL = 'http://localhost:8080/api/Admission';
-const ROOM_REST_API_URL = 'http://localhost:8080/api/Room';
+#const STUDENTS_REST_API_URL = 'http://localhost:8080/api/Student';
+#const ADMISSIONS_REST_API_URL = 'http://localhost:8080/api/Admission';
+#const ROOM_REST_API_URL = 'http://localhost:8080/api/Room';
+
+const STUDENTS_REST_API_URL = 'https://your-backend-url.onrender.com/api/students';
+const ROOMS_REST_API_URL = 'https://your-backend-url.onrender.com/api/rooms';
+const ADMISSIONS_REST_API_URL = 'https://your-backend-url.onrender.com/api/Admission';
 
 class StudentService {
     
