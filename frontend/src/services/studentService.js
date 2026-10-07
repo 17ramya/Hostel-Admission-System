@@ -4,9 +4,9 @@ import axios from 'axios';
 // const ADMISSIONS_REST_API_URL = 'http://localhost:8080/api/Admission';
 // const ROOM_REST_API_URL = 'http://localhost:8080/api/Room';
 
-const STUDENTS_REST_API_URL = 'https://hostel-backend-s21j.onrender.com/api/Student';
-const ROOM_REST_API_URL = 'https://hostel-backend-s21j.onrender.com/api/Room';
-const ADMISSIONS_REST_API_URL = 'https://hostel-backend-s21j.onrender.com/api/Admission';
+const STUDENTS_REST_API_URL = 'https://hostel-admission-system.onrender.com/api/Student';
+const ROOM_REST_API_URL = 'https://hostel-admission-system.onrender.com/api/Room';
+const ADMISSIONS_REST_API_URL = 'https://hostel-admission-system.onrender.com/api/Admission';
 
 class StudentService {
     
