@@ -53,22 +53,25 @@ public class HealthController {
 
         // A short-lived client is built here on purpose: MongoClient is not an injectable
         // bean in Spring Data MongoDB 5.x, and a throwaway client keeps this probe isolated
-        // from the application's own connection pool.
-        MongoClientSettings settings = MongoClientSettings.builder()
-                .applyConnectionString(new ConnectionString(mongoUri))
-                .applyToClusterSettings(builder ->
-                        builder.serverSelectionTimeout(PROBE_TIMEOUT_SECONDS, TimeUnit.SECONDS))
-                .applyToSocketSettings(builder ->
-                        builder.connectTimeout((int) PROBE_TIMEOUT_SECONDS, TimeUnit.SECONDS))
-                .build();
+        // from the application's own connection pool. Everything sits inside the try block so
+        // that even an unparseable connection string is reported as JSON rather than a raw 500.
+        try {
+            MongoClientSettings settings = MongoClientSettings.builder()
+                    .applyConnectionString(new ConnectionString(MongoUriSanitizer.normalize(mongoUri)))
+                    .applyToClusterSettings(builder ->
+                            builder.serverSelectionTimeout(PROBE_TIMEOUT_SECONDS, TimeUnit.SECONDS))
+                    .applyToSocketSettings(builder ->
+                            builder.connectTimeout((int) PROBE_TIMEOUT_SECONDS, TimeUnit.SECONDS))
+                    .build();
 
-        try (MongoClient client = MongoClients.create(settings)) {
-            Document result = client.getDatabase(DATABASE_NAME)
-                    .runCommand(new Document("ping", 1));
-            body.put("status", "UP");
-            body.put("database", DATABASE_NAME);
-            body.put("ping", result.get("ok"));
-            return ResponseEntity.ok(body);
+            try (MongoClient client = MongoClients.create(settings)) {
+                Document result = client.getDatabase(DATABASE_NAME)
+                        .runCommand(new Document("ping", 1));
+                body.put("status", "UP");
+                body.put("database", DATABASE_NAME);
+                body.put("ping", result.get("ok"));
+                return ResponseEntity.ok(body);
+            }
         } catch (Exception e) {
             body.put("status", "DOWN");
             body.put("database", DATABASE_NAME);

@@ -24,6 +24,9 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
 
     @Override
     public MongoClient mongoClient() {
-        return MongoClients.create(mongoUri);
+        // MongoUriSanitizer tolerates the stray whitespace/backticks that env vars often pick up
+        // when they are pasted from a code block. Without it a single bad character here aborts
+        // context startup and the whole service fails to boot.
+        return MongoClients.create(MongoUriSanitizer.normalize(mongoUri));
     }
 }
