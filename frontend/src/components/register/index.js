@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { Card, CardContent, TextField, Button, Typography, Grid } from '@mui/material';
+import StudentService from '../../services/studentService';
 
 const Register = () => {
   const [s_name, setName] = useState('');
@@ -14,7 +14,7 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://hostel-admission-system.onrender.com/api/Student/register', {
+      const response = await StudentService.register({
         s_name,
         regno,
         dept,
@@ -30,8 +30,11 @@ const Register = () => {
         alert('Registration failed or Student already exists.');
       }
     } catch (error) {
-      console.error(error);
-      alert('Error connecting to backend.');
+      console.error('Registration error:', error);
+      alert(
+        'Could not reach the backend. Free Render services sleep when idle, so the first ' +
+        'request can take up to a minute - please try again shortly.'
+      );
     }
   };
 

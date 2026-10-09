@@ -1,17 +1,30 @@
 import axios from 'axios';
 
-// const STUDENTS_REST_API_URL = 'http://localhost:8080/api/Student';
-// const ADMISSIONS_REST_API_URL = 'http://localhost:8080/api/Admission';
-// const ROOM_REST_API_URL = 'http://localhost:8080/api/Room';
+// Base URL of the backend REST API.
+//
+// It defaults to the deployed Render backend, but it can be overridden without editing
+// the source by defining REACT_APP_API_BASE_URL (e.g. in frontend/.env):
+//
+//   REACT_APP_API_BASE_URL=http://localhost:8080     # local development
+//
+// Create React App inlines REACT_APP_* variables at BUILD time, so on Render the variable
+// has to be set before the static site is built.
+const API_BASE_URL = (
+  process.env.REACT_APP_API_BASE_URL || 'https://hostel-admission-system.onrender.com'
+).replace(/\/+$/, '');
 
-const STUDENTS_REST_API_URL = 'https://hostel-admission-system.onrender.com/api/Student';
-const ROOM_REST_API_URL = 'https://hostel-admission-system.onrender.com/api/Room';
-const ADMISSIONS_REST_API_URL = 'https://hostel-admission-system.onrender.com/api/Admission';
+const STUDENTS_REST_API_URL = `${API_BASE_URL}/api/Student`;
+const ROOM_REST_API_URL = `${API_BASE_URL}/api/Room`;
+const ADMISSIONS_REST_API_URL = `${API_BASE_URL}/api/Admission`;
 
 class StudentService {
     
   getStudents() {
     return axios.get(STUDENTS_REST_API_URL);
+  }
+
+  register(studentRequest) {
+    return axios.post(`${STUDENTS_REST_API_URL}/register`, studentRequest);
   }
 
   login(regno, password) {
